@@ -20,6 +20,6 @@ A portfolio manager to organize your invesments and determine whether your curre
 
 * Allow creation of new users
 * Allow creation of a new portfolio for a user
-* Allow add / remove of securities from a portfolio
+* Allow adding / removing of securities from a portfolio
 
 ## Getting Started
