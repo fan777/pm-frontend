@@ -1,0 +1,83 @@
+import { useState, createContext, useContext, useEffect } from 'react';
+import jwt from 'jsonwebtoken';
+import useLocalStorage from '../hooks/useLocalStorage';
+import PortfolioApi from '../api/api';
+import LoadingSpinner from '../components/LoadingSpinner';
+
+export const TOKEN_STORAGE_ID = "portfolio-token";
+
+const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+  const [infoLoaded, setInfoLoaded] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
+
+  useEffect(function loadInfo() {
+    // console.log("App useEffect loadUserInfo", "token=", token);
+    async function getCurrentUser() {
+      if (token) {
+        try {
+          let { username } = jwt.decode(token);
+          PortfolioApi.token = token;
+          let currentUser = await PortfolioApi.getUser(username);
+          setCurrentUser(currentUser)
+        } catch (err) {
+          return setCurrentUser(null);
+        }
+      }
+      setInfoLoaded(true);
+    }
+
+    setInfoLoaded(false);
+    getCurrentUser();
+  }, [token]);
+
+  const login = async (data) => {
+    try {
+      let token = await PortfolioApi.login(data);
+      setToken(token);
+      return { success: true }
+    } catch (err) {
+      logout();
+      return { err };
+    }
+  }
+
+  const signup = async (data) => {
+    try {
+      let token = await PortfolioApi.signup(data);
+      setToken(token);
+      return { success: true }
+    } catch (err) {
+      logout();
+      return { err };
+    }
+  }
+
+  const update = async (data) => {
+    try {
+      let { username, ...rest } = data;
+      let currentUser = await PortfolioApi.updateUser(username, { ...rest });
+      setCurrentUser(currentUser);
+      return { success: true }
+    } catch (err) {
+      return { err }
+    }
+  }
+
+  const logout = () => {
+    setCurrentUser(null);
+    setToken(null);
+  }
+
+  if (!infoLoaded) return <LoadingSpinner />;
+
+  return (
+    <AuthContext.Provider value={{ token, currentUser, login, signup, update, logout }}>
+      {children}
+    </AuthContext.Provider>
+  )
+}
+
+export const useAuth = () => useContext(AuthContext);
