@@ -1,5 +1,5 @@
 const Portfolio = () => {
-  console.log('portfolio')
+  // console.log('portfolio')
   return (
     <div>
       Portfolio

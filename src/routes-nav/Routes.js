@@ -1,10 +1,10 @@
 import { Switch, Route, Redirect } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
 import Home from '../components/Home';
-import Login from '../components/LoginForm';
-import Signup from '../components/SignupForm';
-import Profile from '../components/ProfileForm';
 import Portfolio from '../components/Portfolio';
+import Login from '../forms/LoginForm';
+import Signup from '../forms/SignupForm';
+import Profile from '../forms/ProfileForm';
 
 function Routes() {
   return (

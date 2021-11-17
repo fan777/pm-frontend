@@ -1,20 +1,20 @@
-import { useState, createContext, useContext, useEffect } from 'react';
+import { useState, useEffect, createContext, useContext } from 'react';
 import jwt from 'jsonwebtoken';
-import useLocalStorage from '../hooks/useLocalStorage';
 import PortfolioApi from '../api/api';
-import LoadingSpinner from '../components/LoadingSpinner';
+import useLocalStorage from '../hooks/useLocalStorage';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 export const TOKEN_STORAGE_ID = "portfolio-token";
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-  const [infoLoaded, setInfoLoaded] = useState(false);
+export function AuthProvider({ children }) {
+  const [isLoading, setIsLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
 
   useEffect(function loadInfo() {
-    // console.log("App useEffect loadUserInfo", "token=", token);
+    console.debug("App useEffect loadUserInfo", "token=", token);
     async function getCurrentUser() {
       if (token) {
         try {
@@ -23,13 +23,12 @@ export const AuthProvider = ({ children }) => {
           let currentUser = await PortfolioApi.getUser(username);
           setCurrentUser(currentUser)
         } catch (err) {
-          return setCurrentUser(null);
+          setCurrentUser(null);
         }
       }
-      setInfoLoaded(true);
+      setIsLoading(true);
     }
-
-    setInfoLoaded(false);
+    setIsLoading(false);
     getCurrentUser();
   }, [token]);
 
@@ -71,7 +70,7 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
   }
 
-  if (!infoLoaded) return <LoadingSpinner />;
+  if (!isLoading) return <LoadingSpinner />;
 
   return (
     <AuthContext.Provider value={{ token, currentUser, login, signup, update, logout }}>
