@@ -1,9 +1,15 @@
+import { Container } from 'react-bootstrap';
+import { useAuth } from "../hooks/useAuth";
+
 const Portfolio = () => {
-  // console.log('portfolio')
+  const { currentUser } = useAuth();
   return (
-    <div>
-      Portfolio
-    </div>
+    <Container fluid>
+      <p>Portfolio</p>
+      {currentUser
+        ? <p>Welcome {currentUser?.username}</p>
+        : ""}
+    </Container>
   )
 }
 

@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
-const PrivateRoute = ({ component: Component, exact, path }) => {
+const ProtectedRoute = ({ component: Component, exact, path }) => {
   const { token } = useAuth();
 
   useEffect(() => {
     console.debug(
-      "PrivateRoute",
+      "ProtectedRoute",
       "exact=", exact,
       "path=", path,
       "token=", token,
@@ -15,11 +15,11 @@ const PrivateRoute = ({ component: Component, exact, path }) => {
   })
 
   return (
-    <Route exact={exact} path={path} render={(props) => token
+    <Route exact={exact} path={path} render={(props) => token === null
       ? <Component {...props} />
-      : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+      : <Redirect to={{ pathname: '/', state: { from: props.location } }} />
     } />
   )
 }
 
-export default PrivateRoute;
+export default ProtectedRoute;

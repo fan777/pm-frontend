@@ -32,7 +32,7 @@ const ProfileForm = () => {
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="username">
           <Form.Label>Username</Form.Label>
-          <Form.Control disabled type="text" placeholder="Username" name="password" value={username} onChange={handleChange} />
+          <Form.Control disabled type="text" placeholder="Username" name="username" value={username} onChange={handleChange} />
         </Form.Group>
         <Form.Group controlId="email">
           <Form.Label>Email</Form.Label>

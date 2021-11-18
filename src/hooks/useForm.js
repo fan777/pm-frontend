@@ -1,16 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-
-/**
- * useForm - adapated from zachsnoek
- * https://dev.to/zachsnoek/creating-custom-react-hooks-useform-1gon
- */
+import useIsMountedRef from './useIsMountedRef';
 
 function useForm(initialState = {}, onSubmit, location) {
   const [formData, setFormData] = useState(initialState);
   const [formErrors, setFormErrors] = useState([]);
   const [formSuccess, setFormSuccess] = useState(false);
   const { push } = useHistory();
+  const isMountedRef = useIsMountedRef();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -22,10 +19,12 @@ function useForm(initialState = {}, onSubmit, location) {
     e.preventDefault();
     let result = await onSubmit?.(formData);
     if (result.success) {
-      setFormSuccess(true);
-      location && push(location);
+      if (isMountedRef.current)
+        setFormSuccess(true);
+      else
+        location && push(location);
     } else {
-      setFormErrors(result.err);
+      setFormErrors(result.errors);
       setFormSuccess(false);
     }
   }

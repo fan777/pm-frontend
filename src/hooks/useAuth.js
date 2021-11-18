@@ -22,7 +22,7 @@ export function AuthProvider({ children }) {
           PortfolioApi.token = token;
           let currentUser = await PortfolioApi.getUser(username);
           setCurrentUser(currentUser)
-        } catch (err) {
+        } catch (errors) {
           setCurrentUser(null);
         }
       }
@@ -37,9 +37,8 @@ export function AuthProvider({ children }) {
       let token = await PortfolioApi.login(data);
       setToken(token);
       return { success: true }
-    } catch (err) {
-      logout();
-      return { err };
+    } catch (errors) {
+      return { success: false, errors };
     }
   }
 
@@ -48,9 +47,8 @@ export function AuthProvider({ children }) {
       let token = await PortfolioApi.signup(data);
       setToken(token);
       return { success: true }
-    } catch (err) {
-      logout();
-      return { err };
+    } catch (errors) {
+      return { success: false, errors };
     }
   }
 
@@ -60,8 +58,8 @@ export function AuthProvider({ children }) {
       let currentUser = await PortfolioApi.updateUser(username, { ...rest });
       setCurrentUser(currentUser);
       return { success: true }
-    } catch (err) {
-      return { err }
+    } catch (errors) {
+      return { success: false, errors };
     }
   }
 
