@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import { useAuth } from "../hooks/useAuth";
 import { useForm } from '../hooks/useForm';
 import Alert from '../common/Alert'
@@ -28,7 +28,7 @@ const SignupForm = () => {
   })
 
   return (
-    <Container fluid>
+    <>
       <p>SignupForm</p>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="email">
@@ -48,7 +48,7 @@ const SignupForm = () => {
           : null}
         <Button type="submit">Submit</Button>
       </Form>
-    </Container>
+    </>
   )
 }
 

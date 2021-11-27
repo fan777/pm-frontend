@@ -1,48 +1,17 @@
 // import { useState, useEffect } from 'react';
-import { Container } from 'react-bootstrap';
 import { useAuth } from "../hooks/useAuth";
-// import { getCurrentData, getCurrentPrice, getHistoricalPrices } from "yahoo-stock-prices-fetch";
+import Portfolio from '../components/Portfolio';
+import Quotes from './Quotes';
 
 const Home = () => {
   const { currentUser } = useAuth();
 
-  // const [stockInfo, setStockInfo] = useState({})
-
-  // useEffect(() => {
-  //   const getResults = async () => {
-  //     if (!stockInfo) {
-  //       console.log(stockInfo)
-  //       // const stocks = ['AMZN', 'NFLIX'];
-  //       const data = await getCurrentData('AAPL');
-  //       setStockInfo(data);
-
-  //     }
-  //   }
-  //   getResults();
-  //   console.log(stockInfo)
-  // }, [stockInfo])
-
-  // const data = await getCurrentData('AAPL');
-  // console.log(data);
-
-  // const test = async () => {
-  //   try {
-  //     const data = await getCurrentData('AAPL');
-  //     console.log(data);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
-  // test()
-
   return (
-    <Container fluid>
-      <p>Home</p>
-      {currentUser
-        ? <p>Welcome {currentUser?.username}</p>
-        : ""}
-      { }
-    </Container>
+    <>
+      <Quotes name="US Markets" symbols={['^GSPC', '^DJI', '^IXIC', '^R123UT']} showSymbol={false} />
+      <Quotes name="Crytocurrencies" symbols={['BTC-USD', 'ETH-USD']} showSymbol={false} />
+      {currentUser && <Portfolio />}
+    </>
   )
 }
 

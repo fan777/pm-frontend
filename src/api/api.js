@@ -24,7 +24,6 @@ class PortfolioApi {
     const params = (method === "get")
       ? data
       : {};
-
     try {
       return (await axios({ url, method, data, params, headers })).data;
     } catch (err) {
@@ -35,6 +34,20 @@ class PortfolioApi {
   }
 
   // Individual API routes
+
+  /** Login user */
+
+  static async login(data) {
+    let res = await this.request(`auth/token`, data, "post");
+    return res.token;
+  }
+
+  /** Signup user */
+
+  static async signup(data) {
+    let res = await this.request(`auth/register`, data, "post");
+    return res.token;
+  }
 
   /** Get user */
 
@@ -50,18 +63,18 @@ class PortfolioApi {
     return res.user;
   }
 
-  /** Login user */
+  /** Add symbol to watchlist */
 
-  static async login(data) {
-    let res = await this.request(`auth/token`, data, "post");
-    return res.token;
+  static async addToWatchlist(username, symbol) {
+    let res = await this.request(`users/${username}/watchlist/${symbol}`, {}, "post");
+    return res.watched;
   }
 
-  /** Signup user */
+  /**  Get quotes */
 
-  static async signup(data) {
-    let res = await this.request(`auth/register`, data, "post");
-    return res.token;
+  static async getQuotes(data) {
+    let res = await this.request(`yhf/quotes`, data, "post");
+    return res.quotes;
   }
 
 }
