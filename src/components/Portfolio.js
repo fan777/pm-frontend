@@ -5,10 +5,10 @@ const Portfolio = () => {
   const { currentUser } = useAuth();
   return (
     <>
-      <p>Portfolio</p>
+      {/* <p>Portfolio</p>
       {currentUser
         ? <p>Welcome {currentUser?.username}</p>
-        : ""}
+        : ""} */}
     </>
   )
 }

@@ -3,8 +3,8 @@ import { Table } from 'react-bootstrap';
 import PortfolioApi from '../api/api';
 import './Quotes.css'
 
-const Quotes = ({ name, symbols, showSymbol }) => {
-  const [quotes, setQuotes] = useState(null);
+const Quotes = ({ label, symbols, showSymbol }) => {
+  const [quotes, setQuotes] = useState([]);
 
   useEffect(() => {
     async function getQuotes() {
@@ -25,26 +25,26 @@ const Quotes = ({ name, symbols, showSymbol }) => {
 
   return (
     <>
-      {quotes &&
+      {quotes.length > 0 ?
         <Table className="Quotes" responsive>
           <thead>
             <tr>
-              <th>{name}</th>
-              <th></th>
-              <th></th>
+              <th className="headerTitle shortName">{label}</th>
+              <th className="headerText regularMarketPrice">VALUE</th>
+              <th className="headerText regularMarketChange">DAY CHANGE</th>
             </tr>
           </thead>
           <tbody>
             {quotes.map(({ symbol, shortName, regularMarketPrice, regularMarketChange, regularMarketChangePercent }, index) => (
               <tr key={index}>
-                <td style={{ width: '70%', textAlign: 'left' }}>{showSymbol && <span style={{ width: '100px', display: 'inline-block' }}><a href="#">{symbol}</a></span>} {shortName}</td>
-                <td style={{ width: '15%', textAlign: 'right' }}>{regularMarketPrice}</td>
-                <td style={{ width: '15%', textAlign: 'right', color: marketChangeColor(regularMarketChange) }}>{regularMarketChange} <span style={{ textAlign: 'right', width: '75px', display: 'inline-block' }}>({regularMarketChangePercent.toFixed(2)}%)</span></td>
+                <td className="shortName">{showSymbol && <span style={{ width: '100px', display: 'inline-block' }}><a href="#">{symbol}</a></span>} {shortName}</td>
+                <td className="regularMarketPrice">{regularMarketPrice.toFixed(2)}</td>
+                <td className="regularMarketChange" style={{ color: marketChangeColor(regularMarketChange) }}>{regularMarketChange.toFixed(2)} <span style={{ width: '65px', display: 'inline-block' }}>({regularMarketChangePercent.toFixed(2)}%)</span></td>
               </tr>
             ))}
           </tbody>
         </Table>
-      }
+        : ""}
     </>
   )
 }

@@ -59,6 +59,9 @@ class PortfolioApi {
   /** Update user */
 
   static async updateUser(username, data) {
+    if (data.password === '')
+      delete data.password;
+
     let res = await this.request(`users/${username}`, data, "patch");
     return res.user;
   }
@@ -70,13 +73,27 @@ class PortfolioApi {
     return res.watched;
   }
 
-  /**  Get quotes */
+  /**  External Yahoo Finance Data */
 
-  static async getQuotes(data) {
-    let res = await this.request(`yhf/quotes`, data, "post");
+  static async getQuotes(symbols) {
+    let res = await this.request(`yhf/quotes`, symbols, "post");
     return res.quotes;
   }
 
+  static async getQuoteDetailed(symbol) {
+    let res = await this.request(`yhf/quote-detailed`, symbol, "post");
+    return res.quote;
+  }
+
+  static async searchQuote(searchVal) {
+    let res = await this.request(`yhf/search`, { term: searchVal }, "get");
+    return res.results;
+  }
+
+  static async getTrendingSymbols() {
+    let res = await this.request(`yhf/trending`);
+    return res;
+  }
 }
 
 export default PortfolioApi;

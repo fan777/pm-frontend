@@ -1,4 +1,26 @@
-
 .Quotes {
   font-family: 'Roboto Condensed', sans-serif;
+}
+
+.headerTitle {
+  font-weight: bold;
+}
+
+.headerText {
+  font-size: x-small;
+}
+
+.shortName {
+  text-align: left;
+  width: 70%;
+}
+
+.regularMarketPrice {
+  text-align: right;
+  width: 15%;
+}
+
+.regularMarketChange {
+  text-align: right;
+  width: 15%;
 }

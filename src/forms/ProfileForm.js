@@ -9,7 +9,7 @@ const ProfileForm = () => {
   const { formData, formErrors, formSuccess, handleChange, handleSubmit } = useForm(
     {
       ...currentUser,
-      password: "",
+      password: '',
     },
     update,
     '',

@@ -23,6 +23,7 @@ function useForm(initialState = {}, onSubmit, location) {
         setFormSuccess(true);
       else
         location && push(location);
+
     } else {
       setFormErrors(result.errors);
       setFormSuccess(false);
