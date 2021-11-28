@@ -1,38 +1,45 @@
 import { useState, useEffect } from 'react';
+// import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { useAuth } from "../hooks/useAuth";
 import PortfolioApi from '../api/api';
 import Portfolio from './Portfolio';
 import Quotes from './Quotes';
-import QuoteDetailed from "./QuoteDetailed";
-import Watchlist from './Watchlist';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 const Home = () => {
   const { currentUser } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
   const [trending, setTrending] = useState([]);
 
   useEffect(() => {
     async function getTrendingSymbols() {
       const data = await PortfolioApi.getTrendingSymbols();
-      console.log(data);
-      if (data?.count > 0)
+      if (data?.count > 0) {
         setTrending(data.quotes.map(a => a.symbol));
-      else
+      } else {
         setTrending([])
+      }
+      setIsLoading(true);
     }
+    setIsLoading(false);
     getTrendingSymbols();
-  }, [])
+  }, []);
+
+  if (!isLoading) return <LoadingSpinner />;
 
   return (
-    <>
-      {trending.length > 0 ? <Quotes label="Today's Trending Symbols" symbols={[...trending]} showSymbol={true} /> : ""}
-      <Quotes label="US Markets" symbols={['^GSPC', '^DJI', '^IXIC', '^R123UT']} showSymbol={false} />
-      <Quotes label="Crytocurrencies" symbols={['BTC-USD', 'ETH-USD']} showSymbol={false} />
-
-      {/* <QuoteDetailed symbol="SOFI" /> */}
-      {currentUser ? <Portfolio /> : ""}
-      {currentUser ? <Watchlist /> : ""}
-    </>
+    <Row>
+      {currentUser ? <Col><Portfolio /></Col> : ""}
+      <Col md={currentUser ? 5 : 12}>
+        <Quotes label="US Markets" symbols={['^GSPC', '^DJI', '^IXIC', '^RUT']} showSymbol={false} showName={true} />
+        <Quotes label="Crytocurrencies" symbols={['BTC-USD', 'ETH-USD']} showSymbol={false} showName={true} />
+        {(currentUser && currentUser?.watchlist) ? <Quotes label="Watchlist" symbols={currentUser.watchlist} showSymbol={true} showName={true} /> : ""}
+        {trending.length > 0 ? <Quotes label="Today's Trending Symbols" symbols={[...trending]} showSymbol={true} showName={true} /> : ""}
+      </Col>
+    </Row>
   )
 }
+
 
 export default Home;

@@ -3,24 +3,28 @@
 }
 
 .headerTitle {
+  text-align: left;
   font-weight: bold;
 }
 
 .headerText {
+  text-align: right;
   font-size: x-small;
 }
 
 .shortName {
   text-align: left;
-  width: 70%;
+  font-size: small;
 }
 
 .regularMarketPrice {
   text-align: right;
-  width: 15%;
+  font-size: small;
+  width: 95px;
 }
 
 .regularMarketChange {
   text-align: right;
-  width: 15%;
+  font-size: small;
+  width: 130px;
 }

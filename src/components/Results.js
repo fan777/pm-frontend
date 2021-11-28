@@ -1,22 +1,22 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router";
 import useQuery from '../hooks/useQuery';
 import PortfolioApi from '../api/api';
 
 const Results = () => {
   const query = useQuery();
-  const location = useLocation();
-  const [searchVal, setSearchVal] = useState(query?.get("term"));
+  const [searchVal, setSearchVal] = useState(null);
   const [results, setResults] = useState(null);
 
   useEffect(() => {
     setSearchVal(query?.get("term"))
-  }, [location.key, query])
+  }, [query])
 
   useEffect(() => {
     const search = async () => {
-      let results = await PortfolioApi.searchQuote(searchVal);
-      results?.count ? setResults(results) : setResults(null);
+      if (searchVal) {
+        let results = await PortfolioApi.searchQuote(searchVal);
+        results?.count ? setResults(results) : setResults(null);
+      }
     }
     search();
   }, [searchVal]);
@@ -24,7 +24,7 @@ const Results = () => {
   useEffect(() => {
     console.debug(
       "Results",
-      "queryTerm=", searchVal,
+      "searchVal=", searchVal,
       "results=", results,
     );
   })

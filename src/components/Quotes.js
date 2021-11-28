@@ -1,18 +1,24 @@
 import { useState, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
 import PortfolioApi from '../api/api';
+import useIsMountedRef from '../hooks/useIsMountedRef';
 import './Quotes.css'
 
-const Quotes = ({ label, symbols, showSymbol }) => {
+const Quotes = ({ label, symbols, showSymbol, showName }) => {
   const [quotes, setQuotes] = useState([]);
+  const isMountedRef = useIsMountedRef();
 
   useEffect(() => {
     async function getQuotes() {
-      const data = await PortfolioApi.getQuotes({ symbols });
-      setQuotes(data);
+      if (symbols && symbols.length > 0) {
+        const data = await PortfolioApi.getQuotes({ symbols });
+        if (isMountedRef.current) {
+          setQuotes(data);
+        }
+      }
     }
     getQuotes();
-  }, [symbols])
+  }, [symbols, isMountedRef])
 
   const marketChangeColor = (number) => {
     if (number < 0)
@@ -25,26 +31,33 @@ const Quotes = ({ label, symbols, showSymbol }) => {
 
   return (
     <>
-      {quotes.length > 0 ?
-        <Table className="Quotes" responsive>
-          <thead>
-            <tr>
-              <th className="headerTitle shortName">{label}</th>
-              <th className="headerText regularMarketPrice">VALUE</th>
-              <th className="headerText regularMarketChange">DAY CHANGE</th>
-            </tr>
-          </thead>
-          <tbody>
-            {quotes.map(({ symbol, shortName, regularMarketPrice, regularMarketChange, regularMarketChangePercent }, index) => (
+      <Table className="Quotes" responsive>
+        <thead>
+          <tr>
+            <th className="headerTitle">{label}</th>
+            <th className="headerText">VALUE</th>
+            <th className="headerText">DAY CHANGE</th>
+          </tr>
+        </thead>
+        <tbody>
+          {quotes.length > 0
+            ? quotes.map(({ symbol, shortName, regularMarketPrice, regularMarketChange, regularMarketChangePercent }, index) => (
               <tr key={index}>
-                <td className="shortName">{showSymbol && <span style={{ width: '100px', display: 'inline-block' }}><a href="#">{symbol}</a></span>} {shortName}</td>
+                <td className="shortName">{showSymbol && <span style={{ display: 'block' }}><a href="#">{symbol}</a></span>} {showName && shortName}</td>
                 <td className="regularMarketPrice">{regularMarketPrice.toFixed(2)}</td>
-                <td className="regularMarketChange" style={{ color: marketChangeColor(regularMarketChange) }}>{regularMarketChange.toFixed(2)} <span style={{ width: '65px', display: 'inline-block' }}>({regularMarketChangePercent.toFixed(2)}%)</span></td>
+                <td className="regularMarketChange" style={{ color: marketChangeColor(regularMarketChange) }}>{regularMarketChange.toFixed(2)} <span style={{ width: '60px', display: 'inline-block' }}>({regularMarketChangePercent.toFixed(2)}%)</span></td>
               </tr>
-            ))}
-          </tbody>
-        </Table>
-        : ""}
+            ))
+            :
+            <tr>
+              <td className="shortName">No symbols found...</td>
+              <td></td>
+              <td></td>
+            </tr>
+          }
+        </tbody>
+      </Table>
+
     </>
   )
 }

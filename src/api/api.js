@@ -52,7 +52,7 @@ class PortfolioApi {
   /** Get user */
 
   static async getUser(username) {
-    let res = await this.request(`users/${username}`);
+    let res = await this.request(`users/${username}/complete`);
     return res.user;
   }
 

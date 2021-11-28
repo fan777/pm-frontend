@@ -1,8 +1,8 @@
 
-import { useAuth } from "../hooks/useAuth";
+// import { useAuth } from "../hooks/useAuth";
 
 const Portfolio = () => {
-  const { currentUser } = useAuth();
+  // const { currentUser } = useAuth();
   return (
     <>
       {/* <p>Portfolio</p>
