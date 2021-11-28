@@ -66,7 +66,7 @@ class PortfolioApi {
     return res.user;
   }
 
-  /** Add symbol to watchlist */
+  /** Add symbol to watchlist -- convert to update on watchlist (add / remove) */
 
   static async addToWatchlist(username, symbol) {
     let res = await this.request(`users/${username}/watchlist/${symbol}`, {}, "post");

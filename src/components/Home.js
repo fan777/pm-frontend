@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { useAuth } from "../hooks/useAuth";
 import PortfolioApi from '../api/api';
-import Portfolio from './Portfolio';
 import Quotes from './Quotes';
 import LoadingSpinner from '../common/LoadingSpinner';
 
@@ -30,7 +29,13 @@ const Home = () => {
 
   return (
     <Row>
-      {currentUser ? <Col><Portfolio /></Col> : ""}
+      {currentUser ?
+        <Col>
+          {currentUser?.portfolios.map(p => {
+            const symbols = p.holdings.map(h => h.symbol)
+            return <Quotes key={`p${p.id}`} label={`Portfolio - ${p.name}`} symbols={symbols} showSymbol={true} showName={true} />
+          })}
+        </Col> : ""}
       <Col md={currentUser ? 5 : 12}>
         <Quotes label="US Markets" symbols={['^GSPC', '^DJI', '^IXIC', '^RUT']} showSymbol={false} showName={true} />
         <Quotes label="Crytocurrencies" symbols={['BTC-USD', 'ETH-USD']} showSymbol={false} showName={true} />
