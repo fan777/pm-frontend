@@ -75,13 +75,13 @@ class PortfolioApi {
 
   /**  External Yahoo Finance Data */
 
-  static async getQuotes(symbols) {
-    let res = await this.request(`yhf/quotes`, symbols, "post");
+  static async getQuote(symbols) {
+    let res = await this.request(`yhf/quote`, symbols, "post");
     return res.quotes;
   }
 
-  static async getQuoteDetailed(symbol) {
-    let res = await this.request(`yhf/quote-detailed`, symbol, "post");
+  static async getQuoteSummary(symbol) {
+    let res = await this.request(`yhf/quote-summary`, symbol, "post");
     return res.quote;
   }
 
@@ -93,6 +93,15 @@ class PortfolioApi {
   static async getTrendingSymbols() {
     let res = await this.request(`yhf/trending`);
     return res;
+  }
+
+  static async getRecommendations(searchVal) {
+    try {
+      let res = await this.request(`yhf/recommend`, { term: searchVal });
+      return { success: true, res };
+    } catch (errors) {
+      return { success: false, errors };
+    }
   }
 }
 

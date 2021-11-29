@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-// import { Container, Row, Col, Card } from 'react-bootstrap';
 import { Row, Col } from 'react-bootstrap';
 import { useAuth } from "../hooks/useAuth";
 import PortfolioApi from '../api/api';
@@ -24,6 +23,8 @@ const Home = () => {
     setIsLoading(false);
     getTrendingSymbols();
   }, []);
+
+  console.log(trending);
 
   if (!isLoading) return <LoadingSpinner />;
 
