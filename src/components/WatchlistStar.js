@@ -18,6 +18,8 @@ const WatchlistStar = ({ symbol }) => {
     }
   }
 
+  if (!currentUser) return <></>;
+
   return (
     <>
       {currentUser?.watchlist?.includes(symbol)

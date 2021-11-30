@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Card } from 'react-bootstrap';
 import { Line } from 'react-chartjs-2';
-// import useIsMountedRef from '../hooks/useIsMountedRef';
 import PortfolioApi from '../api/api';
 import Chart from 'chart.js/auto'
 
 const calculateStart = (period) => {
   let date = new Date();
+
   let getStart = ({
     '5D': () => date.setDate(date.getDate() - 5),
     '1M': () => date.setMonth(date.getMonth() - 1),
@@ -15,8 +15,10 @@ const calculateStart = (period) => {
     '1Y': () => date.setFullYear(date.getFullYear() - 1),
     '5Y': () => date.setFullYear(date.getFullYear() - 5),
   })[period ?? '']();
+
   let start = date.toISOString().split('T')[0]
-  let interval = ['5Y'].includes(period) ? '1mo' : '1d';
+  let interval = ['5Y'].includes(period) ? '1wk' : '1d';
+
   return { start, interval };
 }
 

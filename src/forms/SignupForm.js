@@ -29,7 +29,7 @@ const SignupForm = () => {
 
   return (
     <>
-      <p>SignupForm</p>
+      <h1>User Registration</h1>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="email">
           <Form.Label>Email</Form.Label>

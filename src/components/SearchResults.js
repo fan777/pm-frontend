@@ -3,6 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import useQuery from '../hooks/useQuery';
 import PortfolioApi from '../api/api';
 import Quotes from './Quotes';
+import News from "./News";
 
 const SearchResults = () => {
   const query = useQuery();
@@ -16,6 +17,7 @@ const SearchResults = () => {
   useEffect(() => {
     async function search() {
       if (searchVal) {
+        setResults(null);
         let results = await PortfolioApi.searchQuote(searchVal);
         results?.count ? setResults(results) : setResults(null);
       }
@@ -30,19 +32,6 @@ const SearchResults = () => {
       "results=", results,
     );
   })
-
-  const renderNews = (news) => {
-    return (
-      <>
-        <h4>NEWS</h4>
-        {news.map(article => (
-          <p key={article.uuid}><a href={`${article.link}`}>{article.title}</a> <br />
-            published by {article.publisher} @ {article.providerPublishTime}
-          </p>
-        ))}
-      </>
-    )
-  }
 
   return (
     <Row>
@@ -61,7 +50,7 @@ const SearchResults = () => {
             )}
           </Col>
           <Col md={5}>
-            {results?.news && renderNews(results.news)}
+            <News news={results?.news} />
           </Col>
         </>
         : <p>No results found!</p>

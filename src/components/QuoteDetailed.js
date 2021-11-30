@@ -71,9 +71,7 @@ const QuoteDetailed = () => {
       {quoteSummary ?
         <>
           <h1>{quoteSummary?.price?.shortName ?? "-NAME NOT FOUND-"}</h1>
-          <h4>
-            {quoteSummary?.price?.symbol} <WatchlistStar symbol={quoteSummary?.price?.symbol} />
-          </h4>
+          <h4>{quoteSummary?.price?.symbol} <WatchlistStar symbol={quoteSummary?.price?.symbol} /></h4>
           <Col md={7}>
             <QuoteChartContainer symbol={quoteSummary?.price?.symbol} />
             <Card>

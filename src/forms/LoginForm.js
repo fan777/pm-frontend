@@ -28,7 +28,7 @@ const LoginForm = () => {
 
   return (
     <>
-      <p>LoginForm</p>
+      <h1>Login</h1>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="username">
           <Form.Label>Username</Form.Label>

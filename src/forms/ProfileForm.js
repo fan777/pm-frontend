@@ -28,7 +28,7 @@ const ProfileForm = () => {
 
   return (
     <>
-      <p>ProfileForm</p>
+      <h1>User Profile</h1>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="username">
           <Form.Label>Username</Form.Label>

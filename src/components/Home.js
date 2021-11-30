@@ -1,20 +1,16 @@
-// import { useState, useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { useAuth } from "../hooks/useAuth";
-// import PortfolioApi from '../api/api';
 import Quotes from './Quotes';
 import TrendingSymbols from './TrendingSymbols';
-// import LoadingSpinner from '../common/LoadingSpinner';
 
 const Home = () => {
   const { currentUser } = useAuth();
-  console.log(currentUser)
 
   return (
     <Row>
       {currentUser &&
         <Col md="7">
-          {currentUser?.portfolios.length > 0
+          {currentUser?.portfolios?.length
             ? currentUser?.portfolios.map(p => {
               const symbols = p.holdings.map(h => h.symbol)
               return <Quotes key={`p${p.id}`} label={`Portfolio - ${p.name}`} symbols={symbols} showSymbol={true} showName={true} />
