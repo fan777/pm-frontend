@@ -73,6 +73,11 @@ class PortfolioApi {
     return res.watched;
   }
 
+  static async removeFromWatchlist(username, symbol) {
+    let res = await this.request(`users/${username}/watchlist/${symbol}`, {}, "delete");
+    return res.unwatched;
+  }
+
   /**  External Yahoo Finance Data */
 
   static async getQuote(symbols) {
@@ -98,6 +103,15 @@ class PortfolioApi {
   static async getRecommendations(searchVal) {
     try {
       let res = await this.request(`yhf/recommend`, { term: searchVal });
+      return { success: true, res };
+    } catch (errors) {
+      return { success: false, errors };
+    }
+  }
+
+  static async getHistorical(chartParams) {
+    try {
+      let res = await this.request(`yhf/historical`, chartParams);
       return { success: true, res };
     } catch (errors) {
       return { success: false, errors };

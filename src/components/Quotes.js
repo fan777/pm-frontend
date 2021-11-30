@@ -45,8 +45,8 @@ const Quotes = ({ label, symbols, showSymbol, showName }) => {
             ? quotes.map(({ symbol, shortName, regularMarketPrice, regularMarketChange, regularMarketChangePercent }, index) => (
               <tr key={index}>
                 <td className="shortName">{showSymbol && <Link className="symbolLink" to={`/detailed?symbol=${symbol}`}>{symbol}</Link>} {showName && shortName}</td>
-                <td className="regularMarketPrice">{regularMarketPrice.toFixed(2)}</td>
-                <td className="regularMarketChange" style={{ color: marketChangeColor(regularMarketChange) }}>{regularMarketChange.toFixed(2)} <span className="percentText">({regularMarketChangePercent.toFixed(2)}%)</span></td>
+                <td className="regularMarketPrice">{regularMarketPrice?.toFixed(2)}</td>
+                <td className="regularMarketChange" style={{ color: marketChangeColor(regularMarketChange) }}>{regularMarketChange?.toFixed(2)} <span className="percentText">({regularMarketChangePercent?.toFixed(2)}%)</span></td>
               </tr>
             ))
             :

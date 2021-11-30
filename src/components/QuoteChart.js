@@ -1,0 +1,70 @@
+import { useState, useEffect } from 'react';
+import { Card } from 'react-bootstrap';
+import { Line } from 'react-chartjs-2';
+// import useIsMountedRef from '../hooks/useIsMountedRef';
+import PortfolioApi from '../api/api';
+import Chart from 'chart.js/auto'
+
+const calculateStart = (period) => {
+  let date = new Date();
+  let getStart = ({
+    '5D': () => date.setDate(date.getDate() - 5),
+    '1M': () => date.setMonth(date.getMonth() - 1),
+    '6M': () => date.setMonth(date.getMonth() - 6),
+    'YTD': () => date = (new Date(`${date.getFullYear()}`, 1, 1)),
+    '1Y': () => date.setFullYear(date.getFullYear() - 1),
+    '5Y': () => date.setFullYear(date.getFullYear() - 5),
+  })[period ?? '']();
+  let start = date.toISOString().split('T')[0]
+  let interval = ['5Y'].includes(period) ? '1mo' : '1d';
+  return { start, interval };
+}
+
+const QuoteChart = ({ symbol, eventKey }) => {
+  const [results, setResults] = useState(null);
+
+  useEffect(() => {
+    async function getHistorical() {
+      if (symbol && eventKey) {
+        const { start, interval } = calculateStart(eventKey);
+        let results = await PortfolioApi.getHistorical({ term: symbol, start, interval });
+        results?.success ? setResults(results.res) : setResults(null);
+      }
+    }
+    getHistorical();
+  }, [symbol, eventKey])
+
+  const renderChart = (symbol, eventKey) => {
+    const data = {
+      labels: results.map(a => a.date.split('T')[0]),
+      datasets: [
+        {
+          label: 'price',
+          data: results.map(a => a.close),
+          borderColor: 'gray',
+        }
+      ]
+    }
+    const options = {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false,
+        },
+        title: {
+          display: true,
+          text: `${symbol} - ${eventKey}`
+        },
+      }
+    }
+    return <Line data={data} options={options} />
+  }
+
+  return (
+    <Card.Text>
+      {results ? renderChart(symbol, eventKey) : "No chart data!"}
+    </Card.Text>
+  )
+}
+
+export default QuoteChart

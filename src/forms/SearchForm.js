@@ -33,7 +33,7 @@ const SearchForm = () => {
         <FormControl
           type="search"
           className="flex-grow-1"
-          placeholder="Search for symbols"
+          placeholder="Search for news, symbols, and companies..."
           name="searchVal"
           value={searchVal}
           onChange={handleChange}
