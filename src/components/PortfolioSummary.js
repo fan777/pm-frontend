@@ -17,12 +17,12 @@ const PortfolioSummary = () => {
             <th className="headerMarketChange"></th>
           </tr>
         </thead>
-        <tbody><tr><td className="shortName">{currentUser?.portfolios?.length ?? "0"} portfolios found</td><td></td><td></td></tr></tbody>
+        <tbody><tr><td className="shortName">{currentUser?.portfolios?.length ?? "0"} portfolios found for {currentUser?.username}</td><td></td><td></td></tr></tbody>
       </Table>
       {currentUser?.portfolios?.length
         ? currentUser?.portfolios.map(p => {
           const symbols = p.holdings.map(h => h.symbol)
-          return <Quotes key={`p${p.id}`} label={`${p.name}`} symbols={symbols} showSymbol={true} showName={true} />
+          return <Quotes key={`p${p.id}`} label={`${p.name}`} headerLink={`/portfolio/${p.id}`} symbols={symbols} showSymbol={true} showName={true} />
         })
         : ""}
     </>

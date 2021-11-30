@@ -1,6 +1,7 @@
-import { useAuth, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useAuth } from '../hooks/useAuth';
 
-const Portfolio = ({ id }) => {
+const Portfolio = () => {
   const { currentUser } = useAuth();
 
   return (
