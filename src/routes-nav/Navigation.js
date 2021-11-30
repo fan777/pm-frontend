@@ -26,7 +26,7 @@ function Navigation() {
   }
 
   return (
-    <Navbar bg="light" variant="light">
+    <Navbar bg="light" variant="light" className="mb-3">
       <Container>
         <Navbar.Brand as={Link} to='/'>Portfolio Manager</Navbar.Brand>
         <Nav className="flex-grow-1 me-3"><SearchForm /></Nav>

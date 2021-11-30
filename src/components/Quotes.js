@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Table } from 'react-bootstrap';
 import useIsMountedRef from '../hooks/useIsMountedRef';
 import PortfolioApi from '../api/api';
+import { toDecimalHundredths } from '../helpers/formatter';
 import './Quotes.css'
 
 const Quotes = ({ label, symbols, showSymbol, showName }) => {
@@ -45,8 +46,8 @@ const Quotes = ({ label, symbols, showSymbol, showName }) => {
             ? quotes.map(({ symbol, shortName, regularMarketPrice, regularMarketChange, regularMarketChangePercent }, index) => (
               <tr key={index}>
                 <td className="shortName">{showSymbol && <Link className="symbolLink" to={`/detailed?symbol=${symbol}`}>{symbol}</Link>} {showName && shortName}</td>
-                <td className="regularMarketPrice">{regularMarketPrice?.toFixed(2)}</td>
-                <td className="regularMarketChange" style={{ color: marketChangeColor(regularMarketChange) }}>{regularMarketChange?.toFixed(2)} <span className="percentText">({regularMarketChangePercent?.toFixed(2)}%)</span></td>
+                <td className="regularMarketPrice">{toDecimalHundredths(regularMarketPrice)}</td>
+                <td className="regularMarketChange" style={{ color: marketChangeColor(regularMarketChange) }}>{toDecimalHundredths(regularMarketChange)} <span className="percentText">{toDecimalHundredths(regularMarketChangePercent)}%</span></td>
               </tr>
             ))
             :

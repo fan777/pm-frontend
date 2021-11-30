@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useAuth } from "../hooks/useAuth";
 import { useForm } from '../hooks/useForm';
-import Alert from '../common/Alert'
+import Alert from '../common/Alert';
 
 const LoginForm = () => {
   const { login } = useAuth();
@@ -12,29 +12,29 @@ const LoginForm = () => {
       password: "",
     },
     login,
-    '/portfolio',
+    '/home',
   )
   const { username, password } = formData;
 
-  useEffect(() => {
-    console.debug(
-      "LoginForm",
-      "login=", typeof login,
-      "formData=", formData,
-      "formErrors=", formErrors,
-      "formSuccess=", formSuccess,
-    );
-  })
+  // useEffect(() => {
+  //   console.debug(
+  //     "LoginForm",
+  //     "login=", typeof login,
+  //     "formData=", formData,
+  //     "formErrors=", formErrors,
+  //     "formSuccess=", formSuccess,
+  //   );
+  // })
 
   return (
     <>
       <h1>Login</h1>
       <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="username">
+        <Form.Group className="mb-3" controlId="username">
           <Form.Label>Username</Form.Label>
           <Form.Control type="text" placeholder="Username" name="username" value={username} onChange={handleChange} />
         </Form.Group>
-        <Form.Group controlId="password">
+        <Form.Group className="mb-3" controlId="password">
           <Form.Label>Password</Form.Label>
           <Form.Control type="password" placeholder="Password" name="password" value={password} onChange={handleChange} autoComplete="off" />
         </Form.Group>

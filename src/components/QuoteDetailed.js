@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Row, Col, Card, ListGroup } from 'react-bootstrap';
-import { abbreviateNumber } from "js-abbreviation-number";
 import useQuery from '../hooks/useQuery';
 import useIsMountedRef from '../hooks/useIsMountedRef';
 import PortfolioApi from '../api/api';
+import { toReadableDate, toPercent, toAbbreviateNumber, toDecimalHundredths } from '../helpers/formatter';
 import Quotes from './Quotes';
 import QuoteChartContainer from './QuoteChartContainer';
 import "./QuoteDetailed.css";
@@ -52,17 +52,10 @@ const QuoteDetailed = () => {
     );
   })
 
-  const generateListItem = ({ label, subtext, value, type }) => {
-    let retValue;
-    if (type === "percent") {
-      retValue = typeof value === 'number' ? (value * 100).toFixed(2) + '%' : "--";
-    } else if (type === "date") {
-      retValue = new Date(value).toDateString();
-    } else {
-      retValue = (typeof value === 'number' ? abbreviateNumber(value, 1, { symbols: ["", "k", "M", "B", "T", "P", "E"] }) : value) ?? "--";
-    }
+  const generateListItem = ({ label, subtext, text }) => {
+    let value = (typeof text === 'number' ? toAbbreviateNumber(text) : text) ?? "--";
     return (
-      <ListGroup.Item><span className="listLabel">{label} {subtext && <span className="listSubtext">({subtext})</span>}</span> <span className="listValue float-right">{retValue}</span></ListGroup.Item>
+      <ListGroup.Item><span className="listLabel">{label} {subtext && <span className="listSubtext">({subtext})</span>}</span> <span className="listValue float-right">{value}</span></ListGroup.Item>
     )
   };
 
@@ -70,8 +63,7 @@ const QuoteDetailed = () => {
     <Row>
       {quoteSummary ?
         <>
-          <h1>{quoteSummary?.price?.shortName ?? "-NAME NOT FOUND-"}</h1>
-          <h4>{quoteSummary?.price?.symbol} <WatchlistStar symbol={quoteSummary?.price?.symbol} /></h4>
+          <h1>{quoteSummary?.price?.shortName ?? "-NAME NOT FOUND-"} <span className="fs-5">({quoteSummary?.price?.symbol}) <WatchlistStar symbol={quoteSummary?.price?.symbol} /></span></h1>
           <Col md={7}>
             <QuoteChartContainer symbol={quoteSummary?.price?.symbol} />
             <Card>
@@ -92,19 +84,19 @@ const QuoteDetailed = () => {
                 <Card className="mb-3">
                   <Card.Header>Details</Card.Header>
                   <ListGroup className="listItems" variant="flush">
-                    {generateListItem({ label: "Today's Open", subtext: "", value: quoteSummary?.summaryDetail?.open })}
-                    {generateListItem({ label: "Previous Close", subtext: "", value: quoteSummary?.summaryDetail?.previousClose })}
-                    {generateListItem({ label: "Day's Range", subtext: "", value: `${quoteSummary?.summaryDetail?.dayLow ?? "--"} - ${quoteSummary?.summaryDetail?.dayHigh ?? "--"}` })}
-                    {generateListItem({ label: "52 Week Range", subtext: "", value: `${quoteSummary?.summaryDetail?.fiftyTwoWeekLow ?? "--"} - ${quoteSummary?.summaryDetail?.fiftyTwoWeekHigh ?? "--"}` })}
-                    {generateListItem({ label: "Average Volume", subtext: "", value: quoteSummary?.summaryDetail?.averageVolume })}
+                    {generateListItem({ label: "Today's Open", subtext: "", text: quoteSummary?.summaryDetail?.open })}
+                    {generateListItem({ label: "Previous Close", subtext: "", text: quoteSummary?.summaryDetail?.previousClose })}
+                    {generateListItem({ label: "Day's Range", subtext: "", text: `${toDecimalHundredths(quoteSummary?.summaryDetail?.dayLow)} - ${toDecimalHundredths(quoteSummary?.summaryDetail?.dayHigh)}` })}
+                    {generateListItem({ label: "52 Week Range", subtext: "", text: `${toDecimalHundredths(quoteSummary?.summaryDetail?.fiftyTwoWeekLow)} - ${toDecimalHundredths(quoteSummary?.summaryDetail?.fiftyTwoWeekHigh)}` })}
+                    {generateListItem({ label: "Average Volume", subtext: "", text: quoteSummary?.summaryDetail?.averageVolume })}
                   </ListGroup>
                 </Card>
                 <Card className="mb-3">
                   <Card.Header>Dividends</Card.Header>
                   <ListGroup className="listItems" variant="flush">
-                    {generateListItem({ label: "Annual Dividend Rate", subtext: "", value: quoteSummary?.summaryDetail?.dividendRate })}
-                    {generateListItem({ label: "Annual Dividend Yield", subtext: "", value: quoteSummary?.summaryDetail?.dividendYield, type: "percent" })}
-                    {generateListItem({ label: "Previous Ex-Date", subtext: "", value: quoteSummary?.summaryDetail?.exDividendDate, type: "date" })}
+                    {generateListItem({ label: "Annual Dividend Rate", subtext: "", text: quoteSummary?.summaryDetail?.dividendRate })}
+                    {generateListItem({ label: "Annual Dividend Yield", subtext: "", text: toPercent(quoteSummary?.summaryDetail?.dividendYield) })}
+                    {generateListItem({ label: "Previous Ex-Date", subtext: "", text: toReadableDate(quoteSummary?.summaryDetail?.exDividendDate) })}
                   </ListGroup>
                 </Card>
               </Col>
@@ -112,19 +104,19 @@ const QuoteDetailed = () => {
                 <Card className="mb-3">
                   <Card.Header>Earnings</Card.Header>
                   <ListGroup className="listItems" variant="flush">
-                    {generateListItem({ label: "Earnings Per Share", subtext: "", value: quoteSummary?.defaultKeyStatistics?.trailingEps })}
-                    {generateListItem({ label: "Price/Earnings", subtext: "", value: quoteSummary?.summaryDetail?.trailingPE })}
-                    {generateListItem({ label: "Forward P/E", subtext: "", value: quoteSummary?.summaryDetail?.forwardPE })}
-                    {generateListItem({ label: "Price to Earnings / Growth", subtext: "", value: quoteSummary?.defaultKeyStatistics?.pegRatio })}
+                    {generateListItem({ label: "Earnings Per Share", subtext: "", text: quoteSummary?.defaultKeyStatistics?.trailingEps })}
+                    {generateListItem({ label: "Price/Earnings", subtext: "", text: quoteSummary?.summaryDetail?.trailingPE })}
+                    {generateListItem({ label: "Forward P/E", subtext: "", text: quoteSummary?.summaryDetail?.forwardPE })}
+                    {generateListItem({ label: "Price to Earnings / Growth", subtext: "", text: quoteSummary?.defaultKeyStatistics?.pegRatio })}
                   </ListGroup>
                 </Card>
                 <Card className="mb-3">
                   <Card.Header>Shares</Card.Header>
                   <ListGroup className="listItems" variant="flush">
-                    {generateListItem({ label: "Market Capitalization", subtext: "", value: quoteSummary?.summaryDetail?.marketCap })}
-                    {generateListItem({ label: "Enterprise Value", subtext: "", value: quoteSummary?.defaultKeyStatistics?.enterpriseValue })}
-                    {generateListItem({ label: "Shares Outstanding", subtext: "", value: quoteSummary?.defaultKeyStatistics?.sharesOutstanding })}
-                    {generateListItem({ label: "Shares Held By Inst.", subtext: "", value: quoteSummary?.defaultKeyStatistics?.heldPercentInstitutions, type: "percent" })}
+                    {generateListItem({ label: "Market Capitalization", subtext: "", text: quoteSummary?.summaryDetail?.marketCap })}
+                    {generateListItem({ label: "Enterprise Value", subtext: "", text: quoteSummary?.defaultKeyStatistics?.enterpriseValue })}
+                    {generateListItem({ label: "Shares Outstanding", subtext: "", text: quoteSummary?.defaultKeyStatistics?.sharesOutstanding })}
+                    {generateListItem({ label: "Shares Held By Inst.", subtext: "", text: toPercent(quoteSummary?.defaultKeyStatistics?.heldPercentInstitutions) })}
                   </ListGroup>
                 </Card>
               </Col>

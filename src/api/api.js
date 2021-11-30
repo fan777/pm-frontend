@@ -66,6 +66,13 @@ class PortfolioApi {
     return res.user;
   }
 
+  /** Create a portfolio */
+
+  static async newPortfolio(data) {
+    let res = await this.request(`portfolios`, data, "post");
+    return res.portfolio;
+  }
+
   /** Add symbol to watchlist -- convert to update on watchlist (add / remove) */
 
   static async addToWatchlist(username, symbol) {

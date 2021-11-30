@@ -19,13 +19,13 @@ const SearchForm = () => {
       push(`/results?term=${term}`);
   }
 
-  useEffect(() => {
-    console.debug(
-      "SearchForm",
-      "search=", typeof search,
-      "searchVal=", searchVal,
-    );
-  })
+  // useEffect(() => {
+  //   console.debug(
+  //     "SearchForm",
+  //     "search=", typeof search,
+  //     "searchVal=", searchVal,
+  //   );
+  // })
 
   return (
     <Form className="flex-grow-1" onSubmit={handleSubmit}>

@@ -7,6 +7,7 @@ import QuoteDetailed from '../components/QuoteDetailed';
 import LoginForm from '../forms/LoginForm';
 import SignupForm from '../forms/SignupForm';
 import ProfileForm from '../forms/ProfileForm';
+import PortfolioForm from '../forms/PortfolioForm';
 
 function Routes() {
 
@@ -16,8 +17,9 @@ function Routes() {
       <ProtectedRoute exact path='/login' component={LoginForm} />
       <ProtectedRoute exact path='/signup' component={SignupForm} />
       <PrivateRoute exact path='/profile' component={ProfileForm} />
-      <Route path="/results" component={SearchResults} />
-      <Route path="/detailed" component={QuoteDetailed} />
+      <PrivateRoute exact path='/create-portfolio' component={PortfolioForm} />
+      <Route path='/results' component={SearchResults} />
+      <Route path='/detailed' component={QuoteDetailed} />
       <Redirect to="/home" />
     </Switch>
   )

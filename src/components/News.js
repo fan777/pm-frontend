@@ -1,4 +1,4 @@
-import { readableTime } from "../helpers/formatter";
+import { toReadableTime } from "../helpers/formatter";
 
 const News = ({ news }) => {
 
@@ -8,7 +8,7 @@ const News = ({ news }) => {
       {news
         ? news.map(article => (
           <p key={article.uuid}><a href={`${article.link}`}>{article.title}</a> <br />
-            published by {article.publisher} @ {readableTime(article.providerPublishTime)}
+            published by {article.publisher} @ {toReadableTime(article.providerPublishTime)}
           </p>))
         : <p>No news found...</p>
       }

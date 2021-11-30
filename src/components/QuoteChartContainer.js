@@ -6,7 +6,6 @@ const QuoteChartContainer = ({ symbol }) => {
   const [key, setKey] = useState('1M')
 
   const handleSelect = (eventKey) => {
-    console.log(eventKey);
     setKey(eventKey)
   }
   return (

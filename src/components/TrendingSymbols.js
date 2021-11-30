@@ -20,7 +20,7 @@ const TrendingSymbols = () => {
   return (
     <>
       {trending.length > 0
-        ? <Quotes label="Today's Trending Symbols" symbols={[...trending]} showSymbol={true} showName={true} />
+        ? <Quotes label="Today's Trending Symbols" symbols={trending} showSymbol={true} showName={true} />
         : ""}
     </>
   )

@@ -63,9 +63,12 @@ export function AuthProvider({ children }) {
 
   const update = async (data) => {
     try {
-      let { username, ...rest } = data;
+      let { username, watchlist, portfolios, ...rest } = data;
       let currentUser = await PortfolioApi.updateUser(username, { ...rest });
-      setCurrentUser(currentUser);
+      setCurrentUser(prevState => ({
+        ...prevState,
+        ...currentUser,
+      }));
       return { success: true }
     } catch (errors) {
       return { success: false, errors };
@@ -80,7 +83,7 @@ export function AuthProvider({ children }) {
   if (!isLoading) return <LoadingSpinner />;
 
   return (
-    <AuthContext.Provider value={{ token, currentUser, refresh, login, signup, update, logout }}>
+    <AuthContext.Provider value={{ token, currentUser, setCurrentUser, refresh, login, signup, update, logout }}>
       {children}
     </AuthContext.Provider>
   )

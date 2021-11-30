@@ -16,8 +16,8 @@ const SearchResults = () => {
 
   useEffect(() => {
     async function search() {
+      setResults(null);
       if (searchVal) {
-        setResults(null);
         let results = await PortfolioApi.searchQuote(searchVal);
         results?.count ? setResults(results) : setResults(null);
       }

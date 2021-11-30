@@ -2,20 +2,17 @@ import { Row, Col } from 'react-bootstrap';
 import { useAuth } from "../hooks/useAuth";
 import Quotes from './Quotes';
 import TrendingSymbols from './TrendingSymbols';
+import PortfolioSummary from './PortfolioSummary';
 
 const Home = () => {
   const { currentUser } = useAuth();
 
   return (
     <Row>
+      {currentUser ? <h1>Portfolio Summary</h1> : <h1>Summary</h1>}
       {currentUser &&
         <Col md="7">
-          {currentUser?.portfolios?.length
-            ? currentUser?.portfolios.map(p => {
-              const symbols = p.holdings.map(h => h.symbol)
-              return <Quotes key={`p${p.id}`} label={`Portfolio - ${p.name}`} symbols={symbols} showSymbol={true} showName={true} />
-            })
-            : "No portfolios"}
+          <PortfolioSummary />
         </Col>
       }
       <Col md={currentUser ? 5 : 12}>
@@ -29,6 +26,5 @@ const Home = () => {
     </Row>
   )
 }
-
 
 export default Home;
