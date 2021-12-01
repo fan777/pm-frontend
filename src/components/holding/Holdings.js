@@ -16,10 +16,6 @@ const Holdings = ({ holdings, portfolio_id }) => {
   const [showAddHoldingModal, setShowAddHoldingModal] = useState(false);
   const [selectedHolding, setSelectedHolding] = useState(null);
 
-  // useEffect(() => {
-  //   console.log(selectedHolding);
-  // }, [selectedHolding])
-
   const handleEditHoldingPopup = (id) => {
     if (id) {
       setSelectedHolding(holdings.find(h => h.id === id));
@@ -50,7 +46,6 @@ const Holdings = ({ holdings, portfolio_id }) => {
     }
   }
 
-  // const [showAddHoldingModal, setShowAddHoldingModal] = useState(false);
   const handleAddHoldingPopup = () => setShowAddHoldingModal(true);
   const handleCloseAddHoldingModal = () => setShowAddHoldingModal(false);
   const handleAddHolding = async (data) => {
