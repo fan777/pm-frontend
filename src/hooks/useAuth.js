@@ -15,6 +15,7 @@ export function AuthProvider({ children }) {
 
   useEffect(function loadInfo() {
     console.debug("App useEffect loadUserInfo", "token=", token);
+
     async function getCurrentUser() {
       if (token) {
         try {

@@ -19,7 +19,7 @@ const PortfolioSummary = () => {
         </thead>
         <tbody>
           <tr><td className="shortName">{currentUser?.portfolios?.length ?? "0"} portfolios found for {currentUser?.username}</td><td></td><td></td></tr>
-          <tr><td className="shortName"><Link className="symbolLink" to="/create-portfolio">++ Add portfolio ++</Link></td><td></td><td></td></tr>
+          <tr><td className="shortName"><Link className="symbolLink" to="/portfolio/add">++ Add portfolio ++</Link></td><td></td><td></td></tr>
         </tbody>
       </Table>
       {currentUser?.portfolios?.length

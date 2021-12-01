@@ -13,16 +13,20 @@ const AddHoldingModal = ({ showModal, handleClose, handleAdd, portfolio_id }) =>
       portfolio_id: portfolio_id,
     },
     handleAdd,
-    `/portfolio/${portfolio_id}`,
+    ``,
   )
-
   const { symbol, shares_owned } = formData;
 
-  useEffect(() => {
-    // console.log(holding);
-    // console.log(shares_owned);
-    // console.log(formData);
-  })
+  const handleNumInput = (e) => {
+    let t = e.target.value;
+    e.target.value = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 5)) : +t;
+  }
+
+  const handleSymbolInput = (e) => {
+    let t = e.target.value;
+    e.target.value = t.toUpperCase();
+  }
+
 
   return (
     <Modal show={showModal} onHide={handleClose}>
@@ -33,19 +37,11 @@ const AddHoldingModal = ({ showModal, handleClose, handleAdd, portfolio_id }) =>
         <Modal.Body>
           <Form.Group className="mb-3" controlId="symbol">
             <Form.Label>Symbol</Form.Label>
-            <InputGroup>
-              <InputGroup.Text>$</InputGroup.Text>
-              <Form.Control type="text" placeholder="Symbol" name="symbol" value={symbol} /*onInput={handleNumInput}*/ onChange={handleChange} />
-            </InputGroup>
-            <Form.Text muted>Fractional cents is not allowed.</Form.Text>
+            <Form.Control type="text" placeholder="Symbol" name="symbol" value={symbol} onInput={handleSymbolInput} onChange={handleChange} />
           </Form.Group>
           <Form.Group className="mb-3" controlId="shares_owned">
             <Form.Label>Shares owned</Form.Label>
-            <InputGroup>
-              <InputGroup.Text>$</InputGroup.Text>
-              <Form.Control type="number" placeholder="Shares owned" name="shares_owned" value={shares_owned} /*onInput={handleNumInput}*/ onChange={handleChange} />
-            </InputGroup>
-            <Form.Text muted>Fractional cents is not allowed.</Form.Text>
+            <Form.Control type="number" placeholder="Shares owned" name="shares_owned" value={shares_owned} onInput={handleNumInput} onChange={handleChange} />
           </Form.Group>
           {formErrors.length
             ? <Alert type="danger" messages={formErrors} />

@@ -96,7 +96,7 @@ const Holdings = ({ holdings, portfolio_id }) => {
             ? holdings.map(({ id, symbol, shortName, shares_owned, price, change, percent, value }) => (
               <tr key={id}>
                 <td className="shortName"><Link className="symbolLink" to={`/detailed?symbol=${symbol}`}>{symbol}</Link> {shortName} <FontAwesomeIcon icon={["far", "edit"]} onClick={() => handleEditHoldingPopup(id)} /></td>
-                <td className="regularMarketPrice">{toDecimalHundredths(shares_owned)}</td>
+                <td className="regularMarketPrice">{shares_owned}</td>
                 <td className="regularMarketPrice">{toDecimalHundredths(price)}</td>
                 <td className="regularMarketChange" style={{ color: marketChangeColor(change) }}>{toDecimalHundredths(change)} <span className="percentText">({toDecimalHundredths(percent)}%)</span></td>
                 <td className="regularMarketChange">{toDecimalHundredths(value)}</td>

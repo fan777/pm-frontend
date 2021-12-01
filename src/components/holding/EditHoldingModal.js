@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react';
-import { Form, InputGroup, Button, Modal } from 'react-bootstrap';
-import { useAuth } from '../../hooks/useAuth';
+import { Form, Button, Modal } from 'react-bootstrap';
 import { useForm } from '../../hooks/useForm';
 import Alert from '../common/Alert'
 
@@ -16,16 +14,10 @@ const EditHoldingModal = ({ showModal, handleClose, handleEdit, handleDelete, ho
 
   const { shares_owned } = formData;
 
-  // useEffect(() => {
-  //   console.log(holding);
-  //   console.log(shares_owned);
-  //   console.log(formData);
-  // })
-
-  // const handleNumInput = (e) => {
-  //   let t = e.target.value;
-  //   e.target.value = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 3)) : +t;
-  // }
+  const handleNumInput = (e) => {
+    let t = e.target.value;
+    e.target.value = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 5)) : +t;
+  }
 
   return (
     <Modal show={showModal} onHide={handleClose}>
@@ -36,11 +28,7 @@ const EditHoldingModal = ({ showModal, handleClose, handleEdit, handleDelete, ho
         <Modal.Body>
           <Form.Group className="mb-3" controlId="shares_owned">
             <Form.Label>Shares owned</Form.Label>
-            <InputGroup>
-              <InputGroup.Text>$</InputGroup.Text>
-              <Form.Control type="number" placeholder="Shares owned" name="shares_owned" value={shares_owned} /*onInput={handleNumInput}*/ onChange={handleChange} />
-            </InputGroup>
-            <Form.Text muted>Fractional cents is not allowed.</Form.Text>
+            <Form.Control type="number" placeholder="Shares owned" name="shares_owned" value={shares_owned} onInput={handleNumInput} onChange={handleChange} />
           </Form.Group>
           {formErrors.length
             ? <Alert type="danger" messages={formErrors} />

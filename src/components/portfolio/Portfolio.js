@@ -61,7 +61,7 @@ const Portfolio = () => {
         return null;
       })
       // console.log(combined);
-      const totalValue = combined.reduce((prev, next) => ((prev) + (next.value)), 0);
+      const totalValue = combined.reduce((prev, next) => ((prev) + (next?.value ?? 0)), 0);
       setDisplayObject(combined);
       setTotalValue(Number(totalValue));
     }
