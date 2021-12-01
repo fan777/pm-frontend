@@ -1,5 +1,5 @@
-import { useAuth } from '../hooks/useAuth';
-import PortfolioApi from '../api/api';
+import { useAuth } from '../../hooks/useAuth';
+import PortfolioApi from '../../api/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const WatchlistStar = ({ symbol }) => {
@@ -23,8 +23,8 @@ const WatchlistStar = ({ symbol }) => {
   return (
     <>
       {currentUser?.watchlist?.includes(symbol)
-        ? <FontAwesomeIcon icon={["fas", "star"]} onClick={() => handleClick("remove")} />
-        : <FontAwesomeIcon icon={["far", "star"]} onClick={() => handleClick("add")} />
+        ? <><FontAwesomeIcon icon={["fas", "star"]} onClick={() => handleClick("remove")} /> Remove from watchlist</>
+        : <><FontAwesomeIcon icon={["far", "star"]} onClick={() => handleClick("add")} /> Add to watchlist</>
       }
     </>
   )

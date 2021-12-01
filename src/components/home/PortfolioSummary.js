@@ -1,8 +1,8 @@
-import { useAuth } from "../hooks/useAuth";
 import { Link } from 'react-router-dom';
 import { Table } from 'react-bootstrap';
-import Quotes from './Quotes';
-import './Quotes.css'
+import { useAuth } from "../../hooks/useAuth";
+import Quotes from '../quote/Quotes';
+import '../quote/Quotes.css'
 
 const PortfolioSummary = () => {
   const { currentUser } = useAuth();
@@ -12,7 +12,7 @@ const PortfolioSummary = () => {
       <Table className="Quotes" responsive>
         <thead>
           <tr>
-            <th className="headerTitle"><Link className="symbolLink" to="/create-portfolio">Create new portfolio +</Link></th>
+            <th className="headerTitle"><Link className="symbolLink" to="/create-portfolio">++ Create a new portfolio ++</Link></th>
             <th className="headerMarketValue"></th>
             <th className="headerMarketChange"></th>
           </tr>

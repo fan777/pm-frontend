@@ -73,6 +73,24 @@ class PortfolioApi {
     return res.portfolio;
   }
 
+  /** Update portfolio */
+
+  static async updatePortfolio(id, data) {
+    try {
+      let res = await this.request(`portfolios/${id}`, data, 'patch');
+      return { success: true, res };
+    } catch (errors) {
+      return { success: false, errors }
+    }
+  }
+
+  /** Delete a portfolio */
+
+  static async deletePortfolio(id) {
+    let res = await this.request(`portfolios/${id}`, {}, "delete");
+    return res.deleted;
+  }
+
   /** Add symbol to watchlist -- convert to update on watchlist (add / remove) */
 
   static async addToWatchlist(username, symbol) {

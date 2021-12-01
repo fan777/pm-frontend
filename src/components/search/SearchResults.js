@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Row, Col } from 'react-bootstrap';
-import useQuery from '../hooks/useQuery';
-import PortfolioApi from '../api/api';
-import Quotes from './Quotes';
+import useQuery from '../../hooks/useQuery';
+import PortfolioApi from '../../api/api';
+import Quotes from '../quote/Quotes';
 import News from "./News";
 
 const SearchResults = () => {

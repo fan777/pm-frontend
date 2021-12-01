@@ -1,4 +1,4 @@
-import { toReadableTime } from "../helpers/formatter";
+import { toReadableTime } from "../../helpers/formatter";
 
 const News = ({ news }) => {
 

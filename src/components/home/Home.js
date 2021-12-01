@@ -1,6 +1,6 @@
 import { Row, Col } from 'react-bootstrap';
-import { useAuth } from "../hooks/useAuth";
-import Quotes from './Quotes';
+import { useAuth } from "../../hooks/useAuth";
+import Quotes from '../quote/Quotes';
 import TrendingSymbols from './TrendingSymbols';
 import PortfolioSummary from './PortfolioSummary';
 
@@ -9,7 +9,7 @@ const Home = () => {
 
   return (
     <Row>
-      {currentUser ? <h1>Portfolio Summary</h1> : <h1>Summary</h1>}
+      <h1>Summary</h1>
       {currentUser &&
         <Col md="7">
           <PortfolioSummary />

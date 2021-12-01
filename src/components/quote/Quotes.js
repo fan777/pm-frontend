@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Table } from 'react-bootstrap';
-import useIsMountedRef from '../hooks/useIsMountedRef';
-import PortfolioApi from '../api/api';
-import { toDecimalHundredths } from '../helpers/formatter';
+import useIsMountedRef from '../../hooks/useIsMountedRef';
+import PortfolioApi from '../../api/api';
+import { toDecimalHundredths } from '../../helpers/formatter';
 import './Quotes.css'
 
 const Quotes = ({ label, headerLink, symbols, showSymbol, showName }) => {
@@ -37,8 +37,8 @@ const Quotes = ({ label, headerLink, symbols, showSymbol, showName }) => {
       <thead>
         <tr>
           <th className="headerTitle">{headerLink ? <Link className="symbolLink" to={headerLink}>{label}</Link> : label}</th>
-          <th className="headerMarketValue">VALUE</th>
-          <th className="headerMarketChange">DAY CHANGE</th>
+          <th className="headerMarketPrice">PRICE</th>
+          <th className="headerMarketChange">DAY CHANGE (%)</th>
         </tr>
       </thead>
       <tbody>
@@ -47,7 +47,7 @@ const Quotes = ({ label, headerLink, symbols, showSymbol, showName }) => {
             <tr key={index}>
               <td className="shortName">{showSymbol && <Link className="symbolLink" to={`/detailed?symbol=${symbol}`}>{symbol}</Link>} {showName && shortName}</td>
               <td className="regularMarketPrice">{toDecimalHundredths(regularMarketPrice)}</td>
-              <td className="regularMarketChange" style={{ color: marketChangeColor(regularMarketChange) }}>{toDecimalHundredths(regularMarketChange)} <span className="percentText">{toDecimalHundredths(regularMarketChangePercent)}%</span></td>
+              <td className="regularMarketChange" style={{ color: marketChangeColor(regularMarketChange) }}>{toDecimalHundredths(regularMarketChange)} <span className="percentText">({toDecimalHundredths(regularMarketChangePercent)}%)</span></td>
             </tr>
           ))
           :

@@ -3,7 +3,7 @@
   font-weight: bold;
 }
 
-.headerMarketValue {
+.headerMarketPrice {
   text-align: right;
   font-size: x-small;
   width: 95px;
@@ -38,4 +38,24 @@
 .percentText {
    width: 60px;
    display: inline-block;
+}
+
+.trash {
+  padding: 5px;
+  width: 25px;
+  display: inline-block;
+}
+
+.trash:hover {
+  color: red;
+}
+
+.edit {
+  padding: 5px;
+  width: 25px;
+  display: inline-block;
+}
+
+.edit:hover {
+  color: blue;
 }

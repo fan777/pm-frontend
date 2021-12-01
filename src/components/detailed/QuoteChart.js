@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Card } from 'react-bootstrap';
 import { Line } from 'react-chartjs-2';
-import PortfolioApi from '../api/api';
+import PortfolioApi from '../../api/api';
 import Chart from 'chart.js/auto'
 
 const calculateStart = (period) => {

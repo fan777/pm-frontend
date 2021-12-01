@@ -1,7 +1,7 @@
 import { Link, NavLink } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { useAuth } from "../hooks/useAuth";
-import SearchForm from '../forms/SearchForm';
+import SearchForm from '../components/forms/SearchForm';
 
 function Navigation() {
   const { currentUser, logout } = useAuth();

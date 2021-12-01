@@ -2,7 +2,7 @@ import { useState, useEffect, createContext, useContext } from 'react';
 import jwt from 'jsonwebtoken';
 import PortfolioApi from '../api/api';
 import useLocalStorage from '../hooks/useLocalStorage';
-import LoadingSpinner from '../common/LoadingSpinner';
+import LoadingSpinner from '../components/common/LoadingSpinner';
 
 export const TOKEN_STORAGE_ID = "portfolio-token";
 

@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Row, Col, Card, ListGroup } from 'react-bootstrap';
-import useQuery from '../hooks/useQuery';
-import useIsMountedRef from '../hooks/useIsMountedRef';
-import PortfolioApi from '../api/api';
-import { toReadableDate, toPercent, toAbbreviateNumber, toDecimalHundredths } from '../helpers/formatter';
-import Quotes from './Quotes';
+import useQuery from '../../hooks/useQuery';
+import useIsMountedRef from '../../hooks/useIsMountedRef';
+import PortfolioApi from '../../api/api';
+import { toReadableDate, toPercent, toAbbreviateNumber, toDecimalHundredths } from '../../helpers/formatter';
+import Quotes from '../quote/Quotes';
 import QuoteChartContainer from './QuoteChartContainer';
 import "./QuoteDetailed.css";
 import WatchlistStar from './WatchlistStar';
@@ -55,7 +55,7 @@ const QuoteDetailed = () => {
   const generateListItem = ({ label, subtext, text }) => {
     let value = (typeof text === 'number' ? toAbbreviateNumber(text) : text) ?? "--";
     return (
-      <ListGroup.Item><span className="listLabel">{label} {subtext && <span className="listSubtext">({subtext})</span>}</span> <span className="listValue float-right">{value}</span></ListGroup.Item>
+      <ListGroup.Item><span className="listLabel">{label} {subtext && <span className="listSubtext">({subtext})</span>}</span> <span className="listValue">{value}</span></ListGroup.Item>
     )
   };
 
@@ -63,7 +63,8 @@ const QuoteDetailed = () => {
     <Row>
       {quoteSummary ?
         <>
-          <h1>{quoteSummary?.price?.shortName ?? "-NAME NOT FOUND-"} <span className="fs-5">({quoteSummary?.price?.symbol}) <WatchlistStar symbol={quoteSummary?.price?.symbol} /></span></h1>
+          <h1>{quoteSummary?.price?.shortName ?? "-NAME NOT FOUND-"} <span className="fs-5">({quoteSummary?.price?.symbol})</span></h1>
+          <h6><WatchlistStar symbol={quoteSummary?.price?.symbol} /></h6>
           <Col md={7}>
             <QuoteChartContainer symbol={quoteSummary?.price?.symbol} />
             <Card>
