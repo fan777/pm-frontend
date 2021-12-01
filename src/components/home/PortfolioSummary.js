@@ -12,12 +12,15 @@ const PortfolioSummary = () => {
       <Table className="Quotes" responsive>
         <thead>
           <tr>
-            <th className="headerTitle"><Link className="symbolLink" to="/create-portfolio">++ Create a new portfolio ++</Link></th>
+            <th className="headerTitle">Portfolios</th>
             <th className="headerMarketValue"></th>
             <th className="headerMarketChange"></th>
           </tr>
         </thead>
-        <tbody><tr><td className="shortName">{currentUser?.portfolios?.length ?? "0"} portfolios found for {currentUser?.username}</td><td></td><td></td></tr></tbody>
+        <tbody>
+          <tr><td className="shortName">{currentUser?.portfolios?.length ?? "0"} portfolios found for {currentUser?.username}</td><td></td><td></td></tr>
+          <tr><td className="shortName"><Link className="symbolLink" to="/create-portfolio">++ Add portfolio ++</Link></td><td></td><td></td></tr>
+        </tbody>
       </Table>
       {currentUser?.portfolios?.length
         ? currentUser?.portfolios.map(p => {

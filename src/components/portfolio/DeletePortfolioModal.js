@@ -10,8 +10,8 @@ const DeletePortfolioModal = ({ id, showModal, handleClose }) => {
   const handleDelete = async () => {
     let res = await PortfolioApi.deletePortfolio(id);
     if (res === Number(id)) {
-      refresh(currentUser.username)
-      push('/home')
+      refresh(currentUser.username);
+      push('/home');
     }
   }
 

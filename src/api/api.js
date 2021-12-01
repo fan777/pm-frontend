@@ -76,18 +76,46 @@ class PortfolioApi {
   /** Update portfolio */
 
   static async updatePortfolio(id, data) {
-    // try {
     let res = await this.request(`portfolios/${id}`, data, 'patch');
-    return { success: true, res };
-    // } catch (errors) {
-    //   return { success: false, errors }
-    // }
+    return { success: true, portfolio: res.portfolio };
   }
 
   /** Delete a portfolio */
 
   static async deletePortfolio(id) {
     let res = await this.request(`portfolios/${id}`, {}, "delete");
+    return res.deleted;
+  }
+
+  /** Add a holding */
+
+  static async addHolding(data) {
+    try {
+      let res = await this.request(`yhf/quote`, { symbols: data.symbol }, "post");
+      if (res?.quotes?.length > 0) {
+        let { holding } = await this.request(`holdings`, data, 'post');
+        return { success: true, holding };
+      } else {
+        return { success: false, errors: ["Invalid symbol"] };
+      }
+    } catch (errors) {
+      return { success: false, errors }
+    }
+
+
+  }
+
+  /** Update a holding */
+
+  static async updateHolding(id, data) {
+    let res = await this.request(`holdings/${id}`, data, 'patch');
+    return { success: true, holding: res.holding };
+  }
+
+  /** Delete a holding */
+
+  static async deleteHolding(id) {
+    let res = await this.request(`holdings/${id}`, {}, 'delete');
     return res.deleted;
   }
 

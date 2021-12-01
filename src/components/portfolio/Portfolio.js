@@ -1,39 +1,85 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
-import { Row, Col, Table, Form, Button, InputGroup, Modal } from 'react-bootstrap';
+import { Row, Col, Table } from 'react-bootstrap';
 import { useAuth } from '../../hooks/useAuth';
 import PortfolioApi from '../../api/api';
-import Holdings from './Holdings';
 import DeletePortfolioModal from './DeletePortfolioModal';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './Holdings.css'
 import EditNameModal from './EditNameModal';
 import Notes from './Notes';
+import Holdings from '../holding/Holdings';
 import UpdateCashModal from './UpdateCashModal';
+import { toDecimalHundredths } from '../../helpers/formatter';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import './Portfolio.css'
 
 const Portfolio = () => {
   const { currentUser, refresh } = useAuth();
+  const { go } = useHistory();
   const { id } = useParams();
+  const [quotes, setQuotes] = useState([]);
+  const [holdings, setHoldings] = useState([]);
+  const [totalValue, setTotalValue] = useState([]);
+  const [displayObject, setDisplayObject] = useState([])
+  const [portfolio, setPortfolio] = useState(currentUser?.portfolios?.find(p => p.id === Number(id)));
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEditNameModal, setShowEditNameModal] = useState(false);
   const [showEditCashModal, setShowEditCashModal] = useState(false);
 
-  const portfolio = currentUser?.portfolios?.find(p => p.id === Number(id));
+  useEffect(() => {
+    if (portfolio) {
+      setHoldings(portfolio?.holdings);
+    }
+  }, [portfolio])
+
+  useEffect(() => {
+    async function getQuote() {
+      if (holdings && holdings.length > 0) {
+        const symbols = holdings.map(h => h.symbol);
+        const data = await PortfolioApi.getQuote({ symbols });
+        setQuotes(data);
+      }
+    }
+    getQuote();
+  }, [holdings]);
+
+  useEffect(() => {
+    if (quotes?.length && holdings?.length) {
+      // console.log(quotes);
+      // console.log(holdings);
+      const combined = holdings.map(h => {
+        let data = quotes.find(q => q.symbol === h.symbol);
+        if (data) {
+          const { symbol, shortName, regularMarketPrice, regularMarketChange, regularMarketChangePercent } = data;
+          let id = h.id;
+          let shares_owned = Number(h.shares_owned);
+          let price = regularMarketPrice;
+          let change = regularMarketChange;
+          let percent = regularMarketChangePercent;
+          let value = (Number(shares_owned) * Number(price)) ?? 0;
+          return { id, symbol, shortName, shares_owned, price, change, percent, value };
+        }
+        return null;
+      })
+      // console.log(combined);
+      const totalValue = combined.reduce((prev, next) => ((prev) + (next.value)), 0);
+      setDisplayObject(combined);
+      setTotalValue(Number(totalValue));
+    }
+  }, [quotes, holdings, portfolio])
 
   const handleDeleteWarning = () => setShowDeleteModal(true);
   const handleCloseDeleteModal = () => setShowDeleteModal(false);
-
   const handleEditNamePopup = () => setShowEditNameModal(true);
   const handleCloseEditNameModal = () => setShowEditNameModal(false);
-
   const handleEditCashPopup = () => setShowEditCashModal(true);
   const handleCloseEditCashModal = () => setShowEditCashModal(false);
-
   const handleEditPortfolio = async (data) => {
     try {
       let updated = await PortfolioApi.updatePortfolio(id, data);
+      setPortfolio(updated.portfolio);
       await refresh(currentUser.username);
-      return { success: true, updated }
+      // return { success: true }
+      go(`/portfolio/${id}`);
     } catch (errors) {
       return { success: false, errors };
     }
@@ -49,8 +95,8 @@ const Portfolio = () => {
               <span><FontAwesomeIcon className="edit" icon={["fas", "edit"]} onClick={handleEditNamePopup} /> Edit portfolio name</span>
               <span className="ms-3"><FontAwesomeIcon className="trash" icon={["fas", "trash"]} onClick={handleDeleteWarning} /> Delete portfolio</span>
             </h6>
-            <Holdings label={'Holdings'} symbols={portfolio?.holdings.map(h => h.symbol)} showSymbol={true} showName={true} />
-            <Table className="Holdings" responsive>
+            <Holdings holdings={displayObject} setHoldings={setHoldings} portfolio_id={portfolio?.id} />
+            <Table responsive>
               <thead>
                 <tr>
                   <th className="headerTitle">Cash</th>
@@ -83,7 +129,7 @@ const Portfolio = () => {
                 </tr>
               </tbody>
             </Table>
-            <Table className="Holdings" responsive>
+            <Table responsive>
               <thead>
                 <tr>
                   <th className="headerTitle">Total Value</th>
@@ -101,7 +147,7 @@ const Portfolio = () => {
                   <td className="regularMarketPrice"></td>
                   <td className="regularMarketPrice"></td>
                   <td className="regularMarketChange"></td>
-                  <td className="regularMarketChange">{portfolio?.cash}</td>
+                  <td className="regularMarketChange">{toDecimalHundredths(totalValue + Number(portfolio?.cash))}</td>
                   {/* <td className="regularMarketChange"></td> */}
                   {/* <td className="regularMarketChange"></td> */}
                 </tr>
