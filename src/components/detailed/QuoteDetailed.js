@@ -7,7 +7,7 @@ import { toReadableDate, toPercent, toAbbreviateNumber, toDecimalHundredths } fr
 import Quotes from '../quote/Quotes';
 import QuoteChartContainer from './QuoteChartContainer';
 import "./QuoteDetailed.css";
-import WatchlistStar from './WatchlistStar';
+import Star from './Star';
 
 const QuoteDetailed = () => {
   const query = useQuery();
@@ -64,7 +64,7 @@ const QuoteDetailed = () => {
       {quoteSummary ?
         <>
           <h1>{quoteSummary?.price?.shortName ?? "-NAME NOT FOUND-"} <span className="fs-5">({quoteSummary?.price?.symbol})</span></h1>
-          <h6><WatchlistStar symbol={quoteSummary?.price?.symbol} /></h6>
+          <h6><Star symbol={quoteSummary?.price?.symbol} /></h6>
           <Col md={7}>
             <QuoteChartContainer symbol={quoteSummary?.price?.symbol} />
             <Card>

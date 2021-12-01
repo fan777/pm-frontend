@@ -76,12 +76,12 @@ class PortfolioApi {
   /** Update portfolio */
 
   static async updatePortfolio(id, data) {
-    try {
-      let res = await this.request(`portfolios/${id}`, data, 'patch');
-      return { success: true, res };
-    } catch (errors) {
-      return { success: false, errors }
-    }
+    // try {
+    let res = await this.request(`portfolios/${id}`, data, 'patch');
+    return { success: true, res };
+    // } catch (errors) {
+    //   return { success: false, errors }
+    // }
   }
 
   /** Delete a portfolio */

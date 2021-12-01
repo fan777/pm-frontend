@@ -2,7 +2,7 @@ import { useAuth } from '../../hooks/useAuth';
 import PortfolioApi from '../../api/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const WatchlistStar = ({ symbol }) => {
+const Star = ({ symbol }) => {
   const { currentUser, refresh } = useAuth();
 
   const handleClick = async (action) => {
@@ -30,4 +30,4 @@ const WatchlistStar = ({ symbol }) => {
   )
 }
 
-export default WatchlistStar
+export default Star

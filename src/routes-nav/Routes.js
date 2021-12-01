@@ -6,10 +6,10 @@ import Home from '../components/home/Home';
 import SearchResults from '../components/search/SearchResults';
 import QuoteDetailed from '../components/detailed/QuoteDetailed';
 import Portfolio from '../components/portfolio/Portfolio';
-import LoginForm from '../components/forms/LoginForm';
-import SignupForm from '../components/forms/SignupForm';
-import ProfileForm from '../components/forms/ProfileForm';
-import NewPortfolioForm from '../components/forms/NewPortfolioForm';
+import LoginForm from '../components/user/LoginForm';
+import SignupForm from '../components/user/SignupForm';
+import ProfileForm from '../components/user/ProfileForm';
+import NewPortfolioForm from '../components/portfolio/NewPortfolioForm';
 
 function Routes() {
 

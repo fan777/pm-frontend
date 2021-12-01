@@ -40,20 +40,8 @@
    display: inline-block;
 }
 
-.trash {
-  padding: 5px;
-  width: 25px;
-  display: inline-block;
-}
-
 .trash:hover {
   color: red;
-}
-
-.edit {
-  padding: 5px;
-  width: 25px;
-  display: inline-block;
 }
 
 .edit:hover {

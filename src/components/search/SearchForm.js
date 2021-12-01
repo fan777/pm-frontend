@@ -1,6 +1,6 @@
 import { useState/*, useEffect*/ } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Form, FormControl, InputGroup, Button } from 'react-bootstrap'
+import { Form, InputGroup, Button } from 'react-bootstrap'
 
 const SearchForm = () => {
   const [searchVal, setSearchVal] = useState("");
@@ -30,7 +30,7 @@ const SearchForm = () => {
   return (
     <Form className="flex-grow-1" onSubmit={handleSubmit}>
       <InputGroup>
-        <FormControl
+        <Form.Control
           type="search"
           className="flex-grow-1"
           placeholder="Search for news, symbols, and companies..."
